@@ -2,6 +2,7 @@ package org.nouk.ws.client.data;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -41,6 +42,7 @@ public class ManualListModel extends DataPersistence {
     @PostConstruct
     private void init() throws IOException {
         buildFile();
+        file2Data();
     }
 
     @Override
@@ -59,6 +61,9 @@ public class ManualListModel extends DataPersistence {
 
     @Override
     void string2Data(String str) {
-        datas = new Gson().fromJson(str,new TypeToken<Map<String,String>>(){}.getType());
+        if(StringUtils.isNotEmpty(str)) {
+            datas = new Gson().fromJson(str, new TypeToken<Map<String, String>>() {
+            }.getType());
+        }
     }
 }

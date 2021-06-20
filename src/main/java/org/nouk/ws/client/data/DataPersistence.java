@@ -1,5 +1,6 @@
 package org.nouk.ws.client.data;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -36,7 +37,9 @@ abstract class DataPersistence {
 
     abstract String data2String();
     public void data2File() throws IOException {
-        Files.write(filePath(),data2String().getBytes(StandardCharsets.UTF_8));
+        if(StringUtils.isNoneEmpty(data2String())){
+            Files.write(filePath(),data2String().getBytes(StandardCharsets.UTF_8));
+        }
     }
 
     abstract void string2Data(String str);

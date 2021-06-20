@@ -11,15 +11,18 @@ import org.apache.commons.lang3.StringUtils;
 import org.nouk.ws.client.constants.ConnectStatusEnum;
 import org.nouk.ws.client.data.AutoListModel;
 import org.nouk.ws.client.data.ConnectModel;
-import org.nouk.ws.client.data.ListModel;
 import org.nouk.ws.client.data.ManualListModel;
 import org.nouk.ws.client.netty.WebSocketClient;
 import org.nouk.ws.client.utils.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.annotation.PostConstruct;
 import javax.swing.*;
 import javax.swing.text.*;
 import java.awt.*;
+import java.io.IOException;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -28,30 +31,32 @@ import java.util.Optional;
  */
 public class App extends javax.swing.JFrame {
     private WebSocketClient webSocketClient = new WebSocketClient();
-//    private ListModel listModel = new ListModel();
-    private ManualListModel manualListModel;
-    private AutoListModel autoListModel;
-    private ConnectModel connectModel;
+    private ManualListModel manualListModel = new ManualListModel();
+    private AutoListModel autoListModel = new AutoListModel();
+    private ConnectModel connectModel = new ConnectModel();
 
 //    @Autowired
-//    public void setListModel(ListModel listModel) {
-//        this.listModel = listModel;
+//    public void setManualListModel(ManualListModel manualListModel) {
+//        this.manualListModel = manualListModel;
 //    }
-    @Autowired
-    public void setManualListModel(ManualListModel manualListModel) {
-        this.manualListModel = manualListModel;
-    }
-    @Autowired
-    public void setAutoListModel(AutoListModel autoListModel) {
-        this.autoListModel = autoListModel;
-    }
+//    @Autowired
+//    public void setAutoListModel(AutoListModel autoListModel) {
+//        this.autoListModel = autoListModel;
+//    }
     @Autowired
     public void setWebSocketClient(WebSocketClient webSocketClient) {
         this.webSocketClient = webSocketClient;
     }
-    @Autowired
-    public void setConnectModel(ConnectModel connectModel) {
+//    @Autowired
+//    public void setConnectModel(ConnectModel connectModel) {
+//        this.connectModel = connectModel;
+//    }
+
+    public App(ManualListModel manualListModel,AutoListModel autoListModel,ConnectModel connectModel) {
+        this.manualListModel = manualListModel;
+        this.autoListModel = autoListModel;
         this.connectModel = connectModel;
+        initComponents();
     }
 
     /**
@@ -114,7 +119,7 @@ public class App extends javax.swing.JFrame {
 
         jLabel1.setText("url");
 
-        WSUrl.setText("ws://82.157.123.54:9010/ajaxchattest");
+        WSUrl.setText(connectModel.getConnectionUrl());
         WSUrl.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 WSUrlActionPerformed(evt);
@@ -144,12 +149,14 @@ public class App extends javax.swing.JFrame {
 
         WSHeaders.setBorder(javax.swing.BorderFactory.createTitledBorder("headers"));
 
+        WSHeadersKey.setText(connectModel.getHeaders().keySet().stream().findFirst().orElse(""));
         WSHeadersKey.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 WSHeadersKeyActionPerformed(evt);
             }
         });
 
+        WSHeadersValue.setText(connectModel.getHeaders().get(connectModel.getHeaders().keySet().stream().findFirst().orElse("")));
         WSHeadersValue.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 WSHeadersValueActionPerformed(evt);
@@ -241,6 +248,7 @@ public class App extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(sendEventList);
+        sendEventList.add("ssssss", new javax.swing.JButton());
 
         jSplitPane1.setTopComponent(jScrollPane1);
 
@@ -501,6 +509,11 @@ public class App extends javax.swing.JFrame {
         if(StringUtils.isNotEmpty(eventName)){
             manualListModel.addData(eventName, Optional.of(eventMessage).orElse(""));
             updateList();
+            try {
+                manualListModel.data2File();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }//GEN-LAST:event_addSendEventButtonActionPerformed
 
@@ -510,6 +523,11 @@ public class App extends javax.swing.JFrame {
         if(StringUtils.isNotEmpty(selectEventName)){
             manualListModel.removeData(selectEventName);
             updateList();
+            try {
+                manualListModel.data2File();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }//GEN-LAST:event_delSendEventButtonActionPerformed
 
@@ -548,9 +566,15 @@ public class App extends javax.swing.JFrame {
             }
             try {
                 if (webSocketClient.connect(url, entries)) {
-                    connectModel.data2File();
                     connectButton.setText(ConnectStatusEnum.disConnect.name());
                     connectButton.updateUI();
+                    connectModel.setConnectionUrl(url);
+                    Map<String, String> map = new LinkedHashMap<>();
+                    for (Map.Entry<String, String> entry : entries) {
+                        map.put(entry.getKey(),entry.getValue());
+                    }
+                    connectModel.setHeaders(map);
+                    connectModel.data2File();
                 }
             } catch (Exception e) {
                 e.printStackTrace();

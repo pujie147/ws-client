@@ -10,6 +10,7 @@ public class AutoListModel extends DataPersistence {
     @PostConstruct
     private void init() throws IOException {
         buildFile();
+        file2Data();
     }
 
     @Override
