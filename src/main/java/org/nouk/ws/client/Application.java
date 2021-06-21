@@ -1,5 +1,6 @@
 package org.nouk.ws.client;
 
+import org.nouk.ws.client.data.AutoIntervalListModel;
 import org.nouk.ws.client.data.AutoListModel;
 import org.nouk.ws.client.data.ConnectModel;
 import org.nouk.ws.client.data.ManualListModel;
@@ -14,8 +15,8 @@ import org.springframework.core.annotation.Order;
 @SpringBootApplication
 public class Application {
     @Bean
-    public App app(ManualListModel manualListModel, AutoListModel autoListModel, ConnectModel connectModel){
-        App app = new App(manualListModel,autoListModel,connectModel);
+    public App app(ManualListModel manualListModel, AutoListModel autoListModel, ConnectModel connectModel, AutoIntervalListModel autoIntervalListModel){
+        App app = new App(manualListModel,autoListModel,connectModel,autoIntervalListModel);
         app.setVisible(true);
         app.setLocationRelativeTo(null);
         app.setTitle("websocket-client");

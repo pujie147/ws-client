@@ -12,20 +12,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
-public class ManualListModel extends DataPersistence {
-
+public class AutoIntervalListModel extends DataPersistence {
     private Map<String,String> datas = new LinkedHashMap();
-
-    public int getSize() {
-        if (datas==null) {
-            return 0;
-        }
-        return datas.keySet().size();
-    }
-
-    public Object getElementAt(int index) {
-        return datas.keySet().stream().collect(Collectors.toList()).get(index);
-    }
 
     public void addData(String key,String data){
         datas.put(key,data);
@@ -47,12 +35,8 @@ public class ManualListModel extends DataPersistence {
 
     @Override
     String file() {
-        return "manual.json";
+        return "autoInterval.json";
     }
-
-//    public Map<String, String> getDatas() {
-//        return datas;
-//    }
 
     @Override
     String data2String() {

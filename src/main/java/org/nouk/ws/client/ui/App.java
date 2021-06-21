@@ -8,18 +8,18 @@ package org.nouk.ws.client.ui;
 import io.netty.handler.codec.http.DefaultHttpHeaders;
 import io.netty.handler.codec.http.HttpHeaders;
 import org.apache.commons.lang3.StringUtils;
+import org.nouk.ws.client.constants.AutoSendStatusEnum;
 import org.nouk.ws.client.constants.ConnectStatusEnum;
+import org.nouk.ws.client.data.AutoIntervalListModel;
 import org.nouk.ws.client.data.AutoListModel;
 import org.nouk.ws.client.data.ConnectModel;
 import org.nouk.ws.client.data.ManualListModel;
+import org.nouk.ws.client.document.NumberDocument;
 import org.nouk.ws.client.netty.WebSocketClient;
 import org.nouk.ws.client.utils.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.annotation.PostConstruct;
 import javax.swing.*;
-import javax.swing.text.*;
-import java.awt.*;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -34,6 +34,7 @@ public class App extends javax.swing.JFrame {
     private ManualListModel manualListModel = new ManualListModel();
     private AutoListModel autoListModel = new AutoListModel();
     private ConnectModel connectModel = new ConnectModel();
+    private AutoIntervalListModel autoIntervalListModel = new AutoIntervalListModel();
 
 //    @Autowired
 //    public void setManualListModel(ManualListModel manualListModel) {
@@ -52,16 +53,18 @@ public class App extends javax.swing.JFrame {
 //        this.connectModel = connectModel;
 //    }
 
-    public App(ManualListModel manualListModel,AutoListModel autoListModel,ConnectModel connectModel) {
+    public App(ManualListModel manualListModel,AutoListModel autoListModel,ConnectModel connectModel,AutoIntervalListModel autoIntervalListModel) {
         this.manualListModel = manualListModel;
         this.autoListModel = autoListModel;
         this.connectModel = connectModel;
+        this.autoIntervalListModel = autoIntervalListModel;
         initComponents();
         init();
     }
 
     private void init() {
         updateList();
+        updateAutoList();
     }
 
     /**
@@ -112,18 +115,18 @@ public class App extends javax.swing.JFrame {
         jPanel11 = new javax.swing.JPanel();
         jSplitPane3 = new javax.swing.JSplitPane();
         jScrollPane6 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        autoSendEventList = new javax.swing.JList<>();
         jScrollPane7 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        autoSendEvnetMessageArea = new javax.swing.JTextArea();
         jPanel12 = new javax.swing.JPanel();
         jPanel13 = new javax.swing.JPanel();
-        jTextField2 = new javax.swing.JTextField();
-        jButton3 = new javax.swing.JButton();
+        autoIntervalText = new javax.swing.JTextField();
+        autoIntervalButton = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jPanel14 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        autoSendEventNameText = new javax.swing.JTextField();
+        addAutoSendEventButton = new javax.swing.JButton();
+        delAutoSendEventButton = new javax.swing.JButton();
         jScrollPane5 = new javax.swing.JScrollPane();
         autoTextArea = new javax.swing.JTextArea();
 
@@ -347,14 +350,14 @@ public class App extends javax.swing.JFrame {
         jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(jPanel10Layout.createSequentialGroup()
             .addContainerGap()
-            .addComponent(addSendEventNameText, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(addSendEventButton)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(delSendEventButton)
+            .addComponent(addSendEventNameText, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)
             .addGap(18, 18, 18)
+            .addComponent(addSendEventButton)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+            .addComponent(delSendEventButton)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(sendEventButton)
-            .addContainerGap())
+            .addGap(18, 18, 18))
     );
     jPanel10Layout.setVerticalGroup(
         jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -401,18 +404,23 @@ public class App extends javax.swing.JFrame {
     jSplitPane3.setDividerLocation(190);
     jSplitPane3.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
 
-    jList1.setModel(new javax.swing.AbstractListModel<String>() {
+    autoSendEventList.setModel(new javax.swing.AbstractListModel<String>() {
         String[] strings = { "" };
         public int getSize() { return strings.length; }
         public String getElementAt(int i) { return strings[i]; }
     });
-    jScrollPane6.setViewportView(jList1);
+    autoSendEventList.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            autoSendEventListMouseClicked(evt);
+        }
+    });
+    jScrollPane6.setViewportView(autoSendEventList);
 
     jSplitPane3.setTopComponent(jScrollPane6);
 
-    jTextArea1.setColumns(20);
-    jTextArea1.setRows(5);
-    jScrollPane7.setViewportView(jTextArea1);
+    autoSendEvnetMessageArea.setColumns(20);
+    autoSendEvnetMessageArea.setRows(5);
+    jScrollPane7.setViewportView(autoSendEvnetMessageArea);
 
     jSplitPane3.setRightComponent(jScrollPane7);
 
@@ -438,13 +446,19 @@ public class App extends javax.swing.JFrame {
     jPanel13.setBorder(javax.swing.BorderFactory.createEtchedBorder());
     jPanel13.setPreferredSize(new java.awt.Dimension(249, 40));
 
-    jTextField2.addActionListener(new java.awt.event.ActionListener() {
+    autoIntervalText.setDocument(new NumberDocument());
+    autoIntervalText.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
-            jTextField2ActionPerformed(evt);
+            autoIntervalTextActionPerformed(evt);
         }
     });
 
-    jButton3.setText("auto send");
+    autoIntervalButton.setText("auto send");
+    autoIntervalButton.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            autoIntervalButtonActionPerformed(evt);
+        }
+    });
 
     jLabel2.setText("interval:s");
 
@@ -454,22 +468,21 @@ public class App extends javax.swing.JFrame {
         jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(jPanel13Layout.createSequentialGroup()
             .addContainerGap()
-            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(autoIntervalText, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(jLabel2)
             .addGap(18, 18, 18)
-            .addComponent(jButton3)
+            .addComponent(autoIntervalButton)
             .addContainerGap(38, Short.MAX_VALUE))
     );
     jPanel13Layout.setVerticalGroup(
         jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
-            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        .addGroup(jPanel13Layout.createSequentialGroup()
             .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jButton3)
-                .addComponent(jLabel2))
-            .addContainerGap())
+                .addComponent(autoIntervalText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel2)
+                .addComponent(autoIntervalButton))
+            .addGap(0, 13, Short.MAX_VALUE))
     );
 
     jPanel12.add(jPanel13, java.awt.BorderLayout.CENTER);
@@ -477,21 +490,26 @@ public class App extends javax.swing.JFrame {
     jPanel14.setBorder(javax.swing.BorderFactory.createEtchedBorder());
     jPanel14.setPreferredSize(new java.awt.Dimension(249, 40));
 
-    jTextField1.setMinimumSize(new java.awt.Dimension(16, 21));
-    jTextField1.addActionListener(new java.awt.event.ActionListener() {
+    autoSendEventNameText.setMinimumSize(new java.awt.Dimension(16, 21));
+    autoSendEventNameText.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
-            jTextField1ActionPerformed(evt);
+            autoSendEventNameTextActionPerformed(evt);
         }
     });
 
-    jButton1.setText("add");
-    jButton1.addActionListener(new java.awt.event.ActionListener() {
+    addAutoSendEventButton.setText("add");
+    addAutoSendEventButton.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
-            jButton1ActionPerformed(evt);
+            addAutoSendEventButtonActionPerformed(evt);
         }
     });
 
-    jButton2.setText("del");
+    delAutoSendEventButton.setText("del");
+    delAutoSendEventButton.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            delAutoSendEventButtonActionPerformed(evt);
+        }
+    });
 
     javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
     jPanel14.setLayout(jPanel14Layout);
@@ -499,22 +517,21 @@ public class App extends javax.swing.JFrame {
         jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(jPanel14Layout.createSequentialGroup()
             .addContainerGap()
-            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(autoSendEventNameText, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGap(18, 18, 18)
-            .addComponent(jButton1)
+            .addComponent(addAutoSendEventButton)
             .addGap(18, 18, 18)
-            .addComponent(jButton2)
+            .addComponent(delAutoSendEventButton)
             .addContainerGap(69, Short.MAX_VALUE))
     );
     jPanel14Layout.setVerticalGroup(
         jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel14Layout.createSequentialGroup()
-            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        .addGroup(jPanel14Layout.createSequentialGroup()
             .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jButton1)
-                .addComponent(jButton2))
-            .addContainerGap())
+                .addComponent(autoSendEventNameText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(addAutoSendEventButton)
+                .addComponent(delAutoSendEventButton))
+            .addGap(0, 13, Short.MAX_VALUE))
     );
 
     jPanel12.add(jPanel14, java.awt.BorderLayout.PAGE_START);
@@ -645,17 +662,77 @@ public class App extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_sendEventListMouseClicked
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void addAutoSendEventButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addAutoSendEventButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+        String eventName = autoSendEventNameText.getText();
+        String eventMessage = autoSendEvnetMessageArea.getText();
+        String interval = autoIntervalText.getText();
+        if(StringUtils.isNotEmpty(eventName)){
+            autoListModel.addData(eventName, Optional.of(eventMessage).orElse(""));
+            if(StringUtils.isNotEmpty(interval)){
+                autoIntervalListModel.addData(eventName,interval);
+                try {
+                    autoIntervalListModel.data2File();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            updateAutoList();
+            try {
+                autoListModel.data2File();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_addAutoSendEventButtonActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void autoSendEventNameTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoSendEventNameTextActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_autoSendEventNameTextActionPerformed
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void autoIntervalTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoIntervalTextActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_autoIntervalTextActionPerformed
+
+    private void autoSendEventListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_autoSendEventListMouseClicked
+        // TODO add your handling code here:
+        String selectEventName = autoSendEventList.getSelectedValue();
+        String value = autoListModel.getData(selectEventName);
+        if(StringUtils.isNotEmpty(value)){
+            autoSendEvnetMessageArea.setText(JsonUtil.toPrettyFormat(value));
+            autoSendEventNameText.setText(selectEventName);
+            if(autoIntervalListModel.getData(selectEventName)!=null) {
+                autoIntervalText.setText(autoIntervalListModel.getData(selectEventName).toString());
+            }else{
+                autoIntervalText.setText("");
+            }
+        }
+    }//GEN-LAST:event_autoSendEventListMouseClicked
+
+    private void delAutoSendEventButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delAutoSendEventButtonActionPerformed
+        // TODO add your handling code here:
+        String selectEventName = autoSendEventList.getSelectedValue();
+        if(StringUtils.isNotEmpty(selectEventName)){
+            autoListModel.removeData(selectEventName);
+            autoIntervalListModel.removeData(selectEventName);
+            updateAutoList();
+            try {
+                autoListModel.data2File();
+                autoIntervalListModel.data2File();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_delAutoSendEventButtonActionPerformed
+
+    private void autoIntervalButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoIntervalButtonActionPerformed
+        // TODO add your handling code here:
+        if(AutoSendStatusEnum.openAutoSend.equals(AutoSendStatusEnum.valueOf(autoIntervalButton.getText()))){
+
+        }else{
+
+        }
+    }//GEN-LAST:event_autoIntervalButtonActionPerformed
 
     public void connect(){
         String url = WSUrl.getText();
@@ -700,7 +777,6 @@ public class App extends javax.swing.JFrame {
                 }
                 return manualListModel.getSize();
             }
-
             @Override
             public Object getElementAt(int index) {
                 return manualListModel.getElementAt(index);
@@ -708,15 +784,30 @@ public class App extends javax.swing.JFrame {
         });
         sendEventList.updateUI();
     }
+    private void updateAutoList(){
+        autoSendEventList.setModel(new AbstractListModel(){
+            @Override
+            public int getSize() {
+                if (autoListModel==null) {
+                    return 0;
+                }
+                return autoListModel.getSize();
+            }
+            @Override
+            public Object getElementAt(int index) {
+                return autoListModel.getElementAt(index);
+            }
+        });
+        autoSendEventList.updateUI();
+    }
 
     public void appendRequestManualTextArea(String str){
-        insertRequestDocs(manualTextArea,"\n\nclient-------------->>>>>>>>>-------------server\n");
-        insertRequestDocs(manualTextArea,str);
+        manualTextArea.append("\n\nclient-------------->>>>>>>>>-------------server\n");
+        manualTextArea.append(str);
     }
     public void appendResponseManualTextArea(String str){
-        insertResponseDocs(manualTextArea,"\n\nclient--------------<<<<<<<<<-------------server\n");
-//        manualTextArea.append(str);
-        insertResponseDocs(manualTextArea,str);
+        manualTextArea.append("\n\nclient--------------<<<<<<<<<-------------server\n");
+        manualTextArea.append(str);
     }
 
     public void appendRequestAutoTextArea(String str){
@@ -726,32 +817,6 @@ public class App extends javax.swing.JFrame {
     public void appendResponseAutoTextArea(String str){
         autoTextArea.append("\n\nclient--------------<<<<<<<<<-------------server\n");
         autoTextArea.append(str);
-    }
-
-    private void insertRequestDocs(javax.swing.JTextArea textArea,String str){
-        insertDocs(textArea,str,Color.GREEN,false,20);
-    }
-
-    private void insertResponseDocs(javax.swing.JTextArea textArea,String str){
-        insertDocs(textArea,str,Color.BLUE,false,20);
-    }
-
-    private void insertDocs(javax.swing.JTextArea textArea,String str, Color col, boolean bold, int fontSize) {
-        SimpleAttributeSet attrSet = new SimpleAttributeSet();
-        StyleConstants.setForeground(attrSet, col);
-        //颜色
-        if (bold == true) {
-            StyleConstants.setBold(attrSet, true);
-        }//字体类型
-        StyleConstants.setFontSize(attrSet, fontSize);
-        //字体大小
-//        insert(textArea,str, attrSet);
-        Document doc = textArea.getDocument();
-        try {
-            doc.insertString(doc.getLength(), str, attrSet);
-        } catch (BadLocationException e) {
-            System.out.println("BadLocationException:   " + e);
-        }
     }
 
     /**
@@ -795,17 +860,20 @@ public class App extends javax.swing.JFrame {
     private javax.swing.JTextField WSHeadersKey;
     private javax.swing.JTextField WSHeadersValue;
     private javax.swing.JTextField WSUrl;
+    private javax.swing.JButton addAutoSendEventButton;
     private javax.swing.JButton addSendEventButton;
     private javax.swing.JTextField addSendEventNameText;
+    private javax.swing.JButton autoIntervalButton;
+    private javax.swing.JTextField autoIntervalText;
+    private javax.swing.JList<String> autoSendEventList;
+    private javax.swing.JTextField autoSendEventNameText;
+    private javax.swing.JTextArea autoSendEvnetMessageArea;
     private javax.swing.JTextArea autoTextArea;
     private javax.swing.JButton connectButton;
+    private javax.swing.JButton delAutoSendEventButton;
     private javax.swing.JButton delSendEventButton;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -830,9 +898,6 @@ public class App extends javax.swing.JFrame {
     private javax.swing.JSplitPane jSplitPane3;
     private javax.swing.JSplitPane jSplitPane4;
     private javax.swing.JTabbedPane jTabbedPane2;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTextArea manualTextArea;
     private javax.swing.JButton sendEventButton;
     private javax.swing.JList<String> sendEventList;

@@ -1,20 +1,20 @@
 package org.nouk.ws.client.netty.handler.auto;
 
 public class AutoSendMessage {
-    private String requestBody;
+    private String requestKey;
     private Integer intervalTime;
 
-    public AutoSendMessage(String requestBody, Integer intervalTime) {
-        this.requestBody = requestBody;
+    public AutoSendMessage(String reqeustKey, Integer intervalTime) {
+        this.requestKey = reqeustKey;
         this.intervalTime = intervalTime;
     }
 
-    public String getRequestBody() {
-        return requestBody;
+    public String getRequestKey() {
+        return requestKey;
     }
 
-    public void setRequestBody(String requestBody) {
-        this.requestBody = requestBody;
+    public void setRequestKey(String requestKey) {
+        this.requestKey = requestKey;
     }
 
     public Integer getIntervalTime() {
