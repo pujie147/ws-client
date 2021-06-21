@@ -119,6 +119,7 @@ public class App extends javax.swing.JFrame {
         jPanel13 = new javax.swing.JPanel();
         jTextField2 = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
         jPanel14 = new javax.swing.JPanel();
         jTextField1 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
@@ -392,7 +393,7 @@ public class App extends javax.swing.JFrame {
 
     jTabbedPane2.addTab("manual-send", jPanel6);
 
-    jSplitPane2.setDividerLocation(300);
+    jSplitPane2.setDividerLocation(340);
     jSplitPane2.setMinimumSize(new java.awt.Dimension(250, 25));
 
     jPanel9.setLayout(new java.awt.BorderLayout());
@@ -419,9 +420,9 @@ public class App extends javax.swing.JFrame {
     jPanel11.setLayout(jPanel11Layout);
     jPanel11Layout.setHorizontalGroup(
         jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 299, Short.MAX_VALUE)
+        .addGap(0, 339, Short.MAX_VALUE)
         .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSplitPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE))
+            .addComponent(jSplitPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 339, Short.MAX_VALUE))
     );
     jPanel11Layout.setVerticalGroup(
         jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -434,6 +435,7 @@ public class App extends javax.swing.JFrame {
 
     jPanel12.setLayout(new java.awt.BorderLayout());
 
+    jPanel13.setBorder(javax.swing.BorderFactory.createEtchedBorder());
     jPanel13.setPreferredSize(new java.awt.Dimension(249, 40));
 
     jTextField2.addActionListener(new java.awt.event.ActionListener() {
@@ -444,16 +446,20 @@ public class App extends javax.swing.JFrame {
 
     jButton3.setText("auto send");
 
+    jLabel2.setText("interval:s");
+
     javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
     jPanel13.setLayout(jPanel13Layout);
     jPanel13Layout.setHorizontalGroup(
         jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(jPanel13Layout.createSequentialGroup()
             .addContainerGap()
-            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(jLabel2)
             .addGap(18, 18, 18)
             .addComponent(jButton3)
-            .addContainerGap(97, Short.MAX_VALUE))
+            .addContainerGap(38, Short.MAX_VALUE))
     );
     jPanel13Layout.setVerticalGroup(
         jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -461,12 +467,14 @@ public class App extends javax.swing.JFrame {
             .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jButton3))
+                .addComponent(jButton3)
+                .addComponent(jLabel2))
             .addContainerGap())
     );
 
     jPanel12.add(jPanel13, java.awt.BorderLayout.CENTER);
 
+    jPanel14.setBorder(javax.swing.BorderFactory.createEtchedBorder());
     jPanel14.setPreferredSize(new java.awt.Dimension(249, 40));
 
     jTextField1.setMinimumSize(new java.awt.Dimension(16, 21));
@@ -491,12 +499,12 @@ public class App extends javax.swing.JFrame {
         jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(jPanel14Layout.createSequentialGroup()
             .addContainerGap()
-            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGap(18, 18, 18)
             .addComponent(jButton1)
             .addGap(18, 18, 18)
             .addComponent(jButton2)
-            .addContainerGap(64, Short.MAX_VALUE))
+            .addContainerGap(69, Short.MAX_VALUE))
     );
     jPanel14Layout.setVerticalGroup(
         jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -796,6 +804,7 @@ public class App extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
