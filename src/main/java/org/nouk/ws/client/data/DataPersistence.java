@@ -17,7 +17,7 @@ abstract class DataPersistence {
 
     @PostConstruct
     private void init() throws IOException {
-        userHome = System.getProperty("user.home");
+        userHome = System.getProperty("user.dir");
         Path path = Paths.get(userHome + dir);
         if (!Files.exists(path)) {
             Files.createDirectories(path);
