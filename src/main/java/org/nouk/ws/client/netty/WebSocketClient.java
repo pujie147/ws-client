@@ -16,6 +16,7 @@ import io.netty.handler.codec.http.websocketx.WebSocketVersion;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import org.nouk.ws.client.netty.handler.WebSocketClientHandler;
+import org.nouk.ws.client.netty.handler.request.RequestReplacesContent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -25,9 +26,7 @@ import java.util.concurrent.TimeUnit;
 
 @Component
 public class WebSocketClient {
-
     private WebSocketClientHandler webSocketClientHandler;
-
     @Autowired
     public void setWebSocketClientHandler(WebSocketClientHandler webSocketClientHandler) {
         this.webSocketClientHandler = webSocketClientHandler;

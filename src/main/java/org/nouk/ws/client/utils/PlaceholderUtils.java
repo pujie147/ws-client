@@ -1,7 +1,10 @@
 package org.nouk.ws.client.utils;
 
+import com.codahale.metrics.Gauge;
+
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 
 /**
@@ -20,7 +23,7 @@ public class PlaceholderUtils {
      */
     public static final String PLACEHOLDER_SUFFIX = "}";
 
-    public static String resolvePlaceholders(String text, Map<String, String> parameter) {
+    public static String resolvePlaceholders(String text, Map<String, Gauge<String>> parameter) {
         if (parameter == null || parameter.isEmpty()) {
             return text;
         }
@@ -32,10 +35,11 @@ public class PlaceholderUtils {
                 String placeholder = buf.substring(startIndex + PLACEHOLDER_PREFIX.length(), endIndex);
                 int nextIndex = endIndex + PLACEHOLDER_SUFFIX.length();
                 try {
-                    String propVal = parameter.get(placeholder);
+                    Gauge<String> propVal = parameter.get(placeholder);
+//                    propVal = parameter.get(placeholder);
                     if (propVal != null) {
-                        buf.replace(startIndex, endIndex + PLACEHOLDER_SUFFIX.length(), propVal);
-                        nextIndex = startIndex + propVal.length();
+                        buf.replace(startIndex, endIndex + PLACEHOLDER_SUFFIX.length(), propVal.getValue());
+                        nextIndex = startIndex + propVal.getValue().length();
                     } else {
                         System.out.println("Could not resolve placeholder '" + placeholder + "' in [" + text + "] ");
                     }
@@ -52,9 +56,9 @@ public class PlaceholderUtils {
 
     public static void main(String[] args) {
         String aa= "我们都是好孩子,${num}说是嘛？ 我觉得${people}是傻蛋!";
-        Map<String, String> map = new HashMap<String, String>();
-        map.put("num","小二比");
-        map.put("people","小明");
+        Map<String, Gauge<String>> map = new HashMap<String, Gauge<String>>();
+        map.put("num",()->{return "小米"+ new Random().nextInt(50);});
+        map.put("people",()->{return "小明"+ new Random().nextInt(50);});
         System.out.println(PlaceholderUtils.resolvePlaceholders(aa, map));
     }
 

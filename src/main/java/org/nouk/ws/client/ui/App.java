@@ -16,6 +16,7 @@ import org.nouk.ws.client.data.ConnectModel;
 import org.nouk.ws.client.data.ManualListModel;
 import org.nouk.ws.client.document.NumberDocument;
 import org.nouk.ws.client.netty.WebSocketClient;
+import org.nouk.ws.client.netty.handler.auto.AutoSendMessageHandler;
 import org.nouk.ws.client.utils.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -31,27 +32,20 @@ import java.util.Optional;
  */
 public class App extends javax.swing.JFrame {
     private WebSocketClient webSocketClient = new WebSocketClient();
+    private AutoSendMessageHandler autoSendMessageHandler = new AutoSendMessageHandler();
     private ManualListModel manualListModel = new ManualListModel();
     private AutoListModel autoListModel = new AutoListModel();
     private ConnectModel connectModel = new ConnectModel();
     private AutoIntervalListModel autoIntervalListModel = new AutoIntervalListModel();
 
-//    @Autowired
-//    public void setManualListModel(ManualListModel manualListModel) {
-//        this.manualListModel = manualListModel;
-//    }
-//    @Autowired
-//    public void setAutoListModel(AutoListModel autoListModel) {
-//        this.autoListModel = autoListModel;
-//    }
     @Autowired
     public void setWebSocketClient(WebSocketClient webSocketClient) {
         this.webSocketClient = webSocketClient;
     }
-//    @Autowired
-//    public void setConnectModel(ConnectModel connectModel) {
-//        this.connectModel = connectModel;
-//    }
+    @Autowired
+    public void setAutoSendMessageHandler(AutoSendMessageHandler autoSendMessageHandler) {
+        this.autoSendMessageHandler = autoSendMessageHandler;
+    }
 
     public App(ManualListModel manualListModel,AutoListModel autoListModel,ConnectModel connectModel,AutoIntervalListModel autoIntervalListModel) {
         this.manualListModel = manualListModel;
@@ -453,7 +447,7 @@ public class App extends javax.swing.JFrame {
         }
     });
 
-    autoIntervalButton.setText("auto send");
+    autoIntervalButton.setText("openAutoSend");
     autoIntervalButton.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             autoIntervalButtonActionPerformed(evt);
@@ -473,7 +467,7 @@ public class App extends javax.swing.JFrame {
             .addComponent(jLabel2)
             .addGap(18, 18, 18)
             .addComponent(autoIntervalButton)
-            .addContainerGap(38, Short.MAX_VALUE))
+            .addContainerGap(20, Short.MAX_VALUE))
     );
     jPanel13Layout.setVerticalGroup(
         jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -727,10 +721,17 @@ public class App extends javax.swing.JFrame {
 
     private void autoIntervalButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoIntervalButtonActionPerformed
         // TODO add your handling code here:
+        String autoIntervalTextText = autoIntervalText.getText();
+        String autoSendEventNameTextText = autoSendEventNameText.getText();
+        String autoSendEvnetMessageAreaText = autoSendEvnetMessageArea.getText();
         if(AutoSendStatusEnum.openAutoSend.equals(AutoSendStatusEnum.valueOf(autoIntervalButton.getText()))){
-
+            if(StringUtils.isNotEmpty(autoIntervalTextText)||StringUtils.isNotEmpty(autoSendEventNameTextText)||StringUtils.isNotEmpty(autoSendEvnetMessageAreaText)) {
+                autoSendMessageHandler.buildAutoSendMessage(autoSendEventNameTextText,autoSendEvnetMessageAreaText,Integer.parseInt(autoIntervalTextText));
+                autoIntervalButton.setText(AutoSendStatusEnum.closeAutoSend.name());
+            }
         }else{
-
+            autoSendMessageHandler.killTask(autoSendEventNameTextText);
+            autoIntervalButton.setText(AutoSendStatusEnum.openAutoSend.name());
         }
     }//GEN-LAST:event_autoIntervalButtonActionPerformed
 

@@ -609,7 +609,7 @@
                                       <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="autoIntervalButton" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace pref="38" max="32767" attributes="0"/>
+                                      <EmptySpace pref="20" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                             </DimensionLayout>
@@ -632,12 +632,12 @@
                                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="autoIntervalTextActionPerformed"/>
                               </Events>
                               <AuxValues>
-                                <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="autoIntervalText.setDocument(new NumberTextField());"/>
+                                <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="autoIntervalText.setDocument(new NumberDocument());"/>
                               </AuxValues>
                             </Component>
                             <Component class="javax.swing.JButton" name="autoIntervalButton">
                               <Properties>
-                                <Property name="text" type="java.lang.String" value="auto send"/>
+                                <Property name="text" type="java.lang.String" value="openAutoSend"/>
                               </Properties>
                               <Events>
                                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="autoIntervalButtonActionPerformed"/>

@@ -3,45 +3,56 @@ package org.nouk.ws.client.netty.handler.auto;
 import co.paralleluniverse.fibers.Fiber;
 import co.paralleluniverse.fibers.SuspendExecution;
 import co.paralleluniverse.strands.SuspendableRunnable;
-//import org.nouk.netty.client.RequestIdGen;
+import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
+import org.nouk.ws.client.data.AutoListModel;
+import org.nouk.ws.client.netty.WebSocketClient;
+import org.nouk.ws.client.netty.handler.request.RequestReplacesContent;
+import org.nouk.ws.client.ui.App;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import javax.swing.*;
-import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
+@Component
 public class AutoSendMessageHandler {
-    private static Map<JPanel, Fiber> autoSendTasks = new HashMap<>();
+    private WebSocketClient webSocketClient;
+    private App app;
+    private RequestReplacesContent requestReplacesContent;
 
-    private static final String AutoSendHeadTag = "AUTO_SEND";
-
-    private static boolean isAutoSend(String requestId){
-        return requestId.startsWith(AutoSendHeadTag);
+    @Autowired
+    public void setWebSocketClient(WebSocketClient webSocketClient) {
+        this.webSocketClient = webSocketClient;
+    }
+    @Autowired
+    public void setApp(App app) {
+        this.app = app;
+    }
+    @Autowired
+    public void setRequestReplacesContent(RequestReplacesContent requestReplacesContent) {
+        this.requestReplacesContent = requestReplacesContent;
     }
 
-    private static String resolveReqId() throws UnknownHostException {
-//        return AutoSendHeadTag+"-"+ RequestIdGen.resolveReqId();
-        return null;
-    }
+    private Map<String, Fiber> autoSendTasks = new HashMap<>();
 
-    public static void buildAutoSendMessage(JPanel jPanel,String requestBody,Integer intervalTime){
-        Fiber fiber = new Fiber<Void>(jPanel.getName(),new SuspendableRunnable() {
+    public void buildAutoSendMessage(String key,String requestBody,Integer intervalTime){
+        Fiber fiber = new Fiber<Void>(key,new SuspendableRunnable() {
             public void run() throws SuspendExecution, InterruptedException {
                 for (;;) {
-                    Fiber.sleep(intervalTime);
-//                    if (WebSocketClient.getInstance() == null) {
-//                        break;
-//                    }
-//                    System.out.println(System.currentTimeMillis() / 1000 + "--" + requestBody);
-//                    WebSocketClient.getInstance().getChannel().writeAndFlush(new TextWebSocketFrame(requestBody));
+                    Fiber.sleep(intervalTime, TimeUnit.SECONDS);
+                    String requstMessage = requestReplacesContent.replacesContent(requestBody);
+                    if(webSocketClient.sendMessage(requstMessage)){
+                        app.appendRequestAutoTextArea(requstMessage);
+                    }
                 }
             }
         }).start();
-        autoSendTasks.put(jPanel,fiber);
+        autoSendTasks.put(key,fiber);
     }
 
-    public static void killTask(JPanel jPanel){
-        autoSendTasks.get(jPanel).cancel(true);
+    public void killTask(String key){
+        autoSendTasks.get(key).cancel(true);
     }
 
 }
