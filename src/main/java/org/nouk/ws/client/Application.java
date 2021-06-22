@@ -11,6 +11,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
 
+import java.io.File;
+
 
 @SpringBootApplication
 public class Application {
@@ -19,7 +21,8 @@ public class Application {
         App app = new App(manualListModel,autoListModel,connectModel,autoIntervalListModel);
         app.setVisible(true);
         app.setLocationRelativeTo(null);
-        app.setTitle("websocket-client");
+        String userDir = System.getProperty("user.dir");
+        app.setTitle(userDir.substring(userDir.lastIndexOf(File.separator)+1));
         return app;
     }
 

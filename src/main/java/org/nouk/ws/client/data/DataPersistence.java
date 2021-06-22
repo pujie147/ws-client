@@ -12,13 +12,13 @@ import java.nio.file.Paths;
 
 @Component
 abstract class DataPersistence {
-    private String userHome;
+    private String userDir;
     private String dir = "/.wsClient/";
 
     @PostConstruct
     private void init() throws IOException {
-        userHome = System.getProperty("user.dir");
-        Path path = Paths.get(userHome + dir);
+        userDir = System.getProperty("user.dir");
+        Path path = Paths.get(userDir + dir);
         if (!Files.exists(path)) {
             Files.createDirectories(path);
         }
@@ -27,7 +27,7 @@ abstract class DataPersistence {
     abstract String file();
 
     private Path filePath(){
-        return Paths.get(userHome + dir + file());
+        return Paths.get(userDir + dir + file());
     }
     protected void buildFile() throws IOException {
         if(!Files.exists(filePath())){
