@@ -37,6 +37,10 @@ public class AutoSendMessageHandler {
     private Map<String, Fiber> autoSendTasks = new HashMap<>();
 
     public void buildAutoSendMessage(String key,String requestBody,Integer intervalTime){
+        String requstMessage = requestReplacesContent.replacesContent(requestBody);
+        if(webSocketClient.sendMessage(requstMessage)){
+            app.appendRequestAutoTextArea(requstMessage);
+        }
         Fiber fiber = new Fiber<Void>(key,new SuspendableRunnable() {
             public void run() throws SuspendExecution, InterruptedException {
                 for (;;) {
