@@ -17,6 +17,7 @@ import org.nouk.ws.client.data.ManualListModel;
 import org.nouk.ws.client.document.NumberDocument;
 import org.nouk.ws.client.netty.WebSocketClient;
 import org.nouk.ws.client.netty.handler.auto.AutoSendMessageHandler;
+import org.nouk.ws.client.netty.handler.request.RequestReplacesContent;
 import org.nouk.ws.client.utils.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -37,7 +38,12 @@ public class App extends javax.swing.JFrame {
     private AutoListModel autoListModel = new AutoListModel();
     private ConnectModel connectModel = new ConnectModel();
     private AutoIntervalListModel autoIntervalListModel = new AutoIntervalListModel();
+    private RequestReplacesContent requestReplacesContent;
 
+    @Autowired
+    public void setRequestReplacesContent(RequestReplacesContent requestReplacesContent) {
+        this.requestReplacesContent = requestReplacesContent;
+    }
     @Autowired
     public void setWebSocketClient(WebSocketClient webSocketClient) {
         this.webSocketClient = webSocketClient;
@@ -635,6 +641,7 @@ public class App extends javax.swing.JFrame {
         // TODO add your handling code here:
         String message = sendEvnetMessageArea.getText();
         if(StringUtils.isNotEmpty(message)) {
+            message = requestReplacesContent.replacesContent(message);
             if (webSocketClient.sendMessage(message)) {
                 appendRequestManualTextArea(JsonUtil.toPrettyFormat(message));
             }else{
