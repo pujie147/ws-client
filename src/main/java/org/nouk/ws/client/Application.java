@@ -14,7 +14,7 @@ import org.springframework.core.annotation.Order;
 import java.io.File;
 
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"org.nouk.ws.client"})
 public class Application {
     @Bean
     public App app(ManualListModel manualListModel, AutoListModel autoListModel, ConnectModel connectModel, AutoIntervalListModel autoIntervalListModel){
