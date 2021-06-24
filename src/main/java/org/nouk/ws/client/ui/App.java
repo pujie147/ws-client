@@ -59,13 +59,8 @@ public class App extends javax.swing.JFrame {
         this.connectModel = connectModel;
         this.autoIntervalListModel = autoIntervalListModel;
         initComponents();
-        init();
     }
 
-    private void init() {
-        updateList();
-        updateAutoList();
-    }
 
     /**
      * Creates new form main
@@ -83,8 +78,8 @@ public class App extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTabbedPane2 = new javax.swing.JTabbedPane();
-        jPanel1 = new javax.swing.JPanel();
+        mainMenuJTabbedPane = new javax.swing.JTabbedPane();
+        connectJPanel = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         WSUrl = new javax.swing.JTextField();
@@ -93,7 +88,7 @@ public class App extends javax.swing.JFrame {
         WSHeadersKey = new javax.swing.JTextField();
         WSHeadersValue = new javax.swing.JTextField();
         connectButton = new javax.swing.JButton();
-        jPanel6 = new javax.swing.JPanel();
+        manualSendJPanel = new javax.swing.JPanel();
         jSplitPane4 = new javax.swing.JSplitPane();
         jPanel7 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
@@ -109,7 +104,7 @@ public class App extends javax.swing.JFrame {
         addSendEventNameText = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         manualTextArea = new javax.swing.JTextArea();
-        jPanel8 = new javax.swing.JPanel();
+        autoSendJPanel = new javax.swing.JPanel();
         jSplitPane2 = new javax.swing.JSplitPane();
         jPanel9 = new javax.swing.JPanel();
         jPanel11 = new javax.swing.JPanel();
@@ -132,7 +127,13 @@ public class App extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "ws-connect", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("宋体", 0, 12), new java.awt.Color(102, 102, 102))); // NOI18N
+        mainMenuJTabbedPane.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                mainMenuJTabbedPaneStateChanged(evt);
+            }
+        });
+
+        connectJPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "ws-connect", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("宋体", 0, 12), new java.awt.Color(102, 102, 102))); // NOI18N
 
         jLabel1.setText("url");
 
@@ -221,20 +222,20 @@ public class App extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout connectJPanelLayout = new javax.swing.GroupLayout(connectJPanel);
+        connectJPanel.setLayout(connectJPanelLayout);
+        connectJPanelLayout.setHorizontalGroup(
+            connectJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(WSHeaders, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(connectJPanelLayout.createSequentialGroup()
                 .addGap(307, 307, 307)
                 .addComponent(connectButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        connectJPanelLayout.setVerticalGroup(
+            connectJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(connectJPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -244,7 +245,7 @@ public class App extends javax.swing.JFrame {
                 .addContainerGap(366, Short.MAX_VALUE))
         );
 
-        jTabbedPane2.addTab("ws-connect", jPanel1);
+        mainMenuJTabbedPane.addTab("ws-connect", connectJPanel);
 
         jSplitPane4.setDividerLocation(340);
 
@@ -383,18 +384,18 @@ public class App extends javax.swing.JFrame {
 
     jSplitPane4.setRightComponent(jScrollPane2);
 
-    javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-    jPanel6.setLayout(jPanel6Layout);
-    jPanel6Layout.setHorizontalGroup(
-        jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+    javax.swing.GroupLayout manualSendJPanelLayout = new javax.swing.GroupLayout(manualSendJPanel);
+    manualSendJPanel.setLayout(manualSendJPanelLayout);
+    manualSendJPanelLayout.setHorizontalGroup(
+        manualSendJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addComponent(jSplitPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 736, Short.MAX_VALUE)
     );
-    jPanel6Layout.setVerticalGroup(
-        jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+    manualSendJPanelLayout.setVerticalGroup(
+        manualSendJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addComponent(jSplitPane4, javax.swing.GroupLayout.Alignment.TRAILING)
     );
 
-    jTabbedPane2.addTab("manual-send", jPanel6);
+    mainMenuJTabbedPane.addTab("manual-send", manualSendJPanel);
 
     jSplitPane2.setDividerLocation(340);
     jSplitPane2.setMinimumSize(new java.awt.Dimension(250, 25));
@@ -548,28 +549,28 @@ public class App extends javax.swing.JFrame {
 
     jSplitPane2.setRightComponent(jScrollPane5);
 
-    javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
-    jPanel8.setLayout(jPanel8Layout);
-    jPanel8Layout.setHorizontalGroup(
-        jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+    javax.swing.GroupLayout autoSendJPanelLayout = new javax.swing.GroupLayout(autoSendJPanel);
+    autoSendJPanel.setLayout(autoSendJPanelLayout);
+    autoSendJPanelLayout.setHorizontalGroup(
+        autoSendJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addComponent(jSplitPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 736, Short.MAX_VALUE)
     );
-    jPanel8Layout.setVerticalGroup(
-        jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+    autoSendJPanelLayout.setVerticalGroup(
+        autoSendJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addComponent(jSplitPane2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
     );
 
-    jTabbedPane2.addTab("auto-send", jPanel8);
+    mainMenuJTabbedPane.addTab("auto-send", autoSendJPanel);
 
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
     getContentPane().setLayout(layout);
     layout.setHorizontalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(jTabbedPane2)
+        .addComponent(mainMenuJTabbedPane)
     );
     layout.setVerticalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(jTabbedPane2)
+        .addComponent(mainMenuJTabbedPane)
     );
 
     pack();
@@ -742,6 +743,19 @@ public class App extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_autoIntervalButtonActionPerformed
 
+    private void mainMenuJTabbedPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_mainMenuJTabbedPaneStateChanged
+        if(mainMenuJTabbedPane.getSelectedComponent().equals(connectJPanel)){
+            WSUrl.setText(connectModel.getConnectionUrl());
+            WSHeadersKey.setText(connectModel.getHeaders().keySet().stream().findFirst().orElse(""));
+            WSHeadersValue.setText(connectModel.getHeaders().get(connectModel.getHeaders().keySet().stream().findFirst().orElse("")));
+        }else if(mainMenuJTabbedPane.getSelectedComponent().equals(manualSendJPanel)){
+            updateList();
+        }else if(mainMenuJTabbedPane.getSelectedComponent().equals(autoSendJPanel)){
+            updateAutoList();
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mainMenuJTabbedPaneStateChanged
+
     public void connect(){
         String url = WSUrl.getText();
         String headerKey = WSHeadersKey.getText();
@@ -876,13 +890,14 @@ public class App extends javax.swing.JFrame {
     private javax.swing.JList<String> autoSendEventList;
     private javax.swing.JTextField autoSendEventNameText;
     private javax.swing.JTextArea autoSendEvnetMessageArea;
+    private javax.swing.JPanel autoSendJPanel;
     private javax.swing.JTextArea autoTextArea;
     private javax.swing.JButton connectButton;
+    private javax.swing.JPanel connectJPanel;
     private javax.swing.JButton delAutoSendEventButton;
     private javax.swing.JButton delSendEventButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
@@ -891,9 +906,7 @@ public class App extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -905,7 +918,8 @@ public class App extends javax.swing.JFrame {
     private javax.swing.JSplitPane jSplitPane2;
     private javax.swing.JSplitPane jSplitPane3;
     private javax.swing.JSplitPane jSplitPane4;
-    private javax.swing.JTabbedPane jTabbedPane2;
+    private javax.swing.JTabbedPane mainMenuJTabbedPane;
+    private javax.swing.JPanel manualSendJPanel;
     private javax.swing.JTextArea manualTextArea;
     private javax.swing.JButton sendEventButton;
     private javax.swing.JList<String> sendEventList;

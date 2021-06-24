@@ -19,6 +19,7 @@
 *.tar.gz
 *.rar
 *.iml
+*.json
 
 .idea
 target
