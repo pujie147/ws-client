@@ -8,12 +8,14 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
 public class AutoListModel extends DataPersistence {
     private Map<String,String> datas = new LinkedHashMap();
+    private Map<String,Boolean> active = new LinkedHashMap();
 
     public int getSize() {
         if (datas==null) {
@@ -23,10 +25,19 @@ public class AutoListModel extends DataPersistence {
     }
 
     public Object getElementAt(int index) {
-        return datas.keySet().stream().collect(Collectors.toList()).get(index);
+        List<String> collect = datas.keySet().stream().collect(Collectors.toList());
+        String key = collect.get(index);
+        if (this.active.containsKey(key) && this.active.get(key)) {
+            return key + "     " + "↑";
+        }
+        return key;
     }
 
-    public void addData(String key,String data){
+    public void setActive(String string,boolean b) {
+        this.active.put(string,b);
+    }
+
+    public void addData(String key, String data){
         datas.put(key,data);
     }
 

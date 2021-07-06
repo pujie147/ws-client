@@ -7,6 +7,9 @@ package org.nouk.ws.client.ui;
 
 import io.netty.handler.codec.http.DefaultHttpHeaders;
 import io.netty.handler.codec.http.HttpHeaders;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseEvent;
 import org.apache.commons.lang3.StringUtils;
 import org.nouk.ws.client.constants.AutoSendStatusEnum;
 import org.nouk.ws.client.constants.ConnectStatusEnum;
@@ -380,6 +383,11 @@ public class App extends javax.swing.JFrame {
     manualTextArea.setBackground(new java.awt.Color(244, 244, 244));
     manualTextArea.setColumns(20);
     manualTextArea.setRows(5);
+    manualTextArea.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            manualTextAreaMouseClicked(evt);
+        }
+    });
     jScrollPane2.setViewportView(manualTextArea);
 
     jSplitPane4.setRightComponent(jScrollPane2);
@@ -545,6 +553,11 @@ public class App extends javax.swing.JFrame {
     autoTextArea.setBackground(new java.awt.Color(243, 243, 243));
     autoTextArea.setColumns(20);
     autoTextArea.setRows(5);
+    autoTextArea.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            autoTextAreaMouseClicked(evt);
+        }
+    });
     jScrollPane5.setViewportView(autoTextArea);
 
     jSplitPane2.setRightComponent(jScrollPane5);
@@ -734,13 +747,16 @@ public class App extends javax.swing.JFrame {
         String autoSendEvnetMessageAreaText = autoSendEvnetMessageArea.getText();
         if(AutoSendStatusEnum.openAutoSend.equals(AutoSendStatusEnum.valueOf(autoIntervalButton.getText()))){
             if(StringUtils.isNotEmpty(autoIntervalTextText)||StringUtils.isNotEmpty(autoSendEventNameTextText)||StringUtils.isNotEmpty(autoSendEvnetMessageAreaText)) {
+                autoListModel.setActive(autoSendEventNameTextText,true);
                 autoSendMessageHandler.buildAutoSendMessage(autoSendEventNameTextText,autoSendEvnetMessageAreaText,Integer.parseInt(autoIntervalTextText));
                 autoIntervalButton.setText(AutoSendStatusEnum.closeAutoSend.name());
             }
         }else{
+            autoListModel.setActive(autoSendEventNameTextText,false);
             autoSendMessageHandler.killTask(autoSendEventNameTextText);
             autoIntervalButton.setText(AutoSendStatusEnum.openAutoSend.name());
         }
+        updateAutoList();
     }//GEN-LAST:event_autoIntervalButtonActionPerformed
 
     private void mainMenuJTabbedPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_mainMenuJTabbedPaneStateChanged
@@ -755,6 +771,43 @@ public class App extends javax.swing.JFrame {
         }
         // TODO add your handling code here:
     }//GEN-LAST:event_mainMenuJTabbedPaneStateChanged
+
+    private void manualTextAreaMouseClicked(java.awt.event.MouseEvent e) {//GEN-FIRST:event_manualTextAreaMouseClicked
+        // TODO add your handling code here:
+        if(e.getButton()==MouseEvent.BUTTON3)
+        {
+            //弹出式菜单
+            JPopupMenu popup=new JPopupMenu();
+            popup.add( createMenuItem((JTextArea)e.getSource(), "clearAll","clear all"));
+            popup.show(e.getComponent(), e.getX(), e.getY());
+        }
+    }//GEN-LAST:event_manualTextAreaMouseClicked
+
+    private void autoTextAreaMouseClicked(java.awt.event.MouseEvent e) {//GEN-FIRST:event_autoTextAreaMouseClicked
+        // TODO add your handling code here:
+        if(e.getButton()==MouseEvent.BUTTON3)
+        {
+            //弹出式菜单
+            JPopupMenu popup=new JPopupMenu();
+            popup.add( createMenuItem((JTextArea)e.getSource(), "clearAll","clear all"));
+            popup.show(e.getComponent(), e.getX(), e.getY());
+        }
+    }//GEN-LAST:event_autoTextAreaMouseClicked
+
+    private JMenuItem createMenuItem(JTextArea jTextArea,String action,String text)
+    {
+        JMenuItem item=new JMenuItem(text);
+        item.setActionCommand(action);
+        item.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if("clearAll".equals(e.getActionCommand())) {
+                    jTextArea.setText("");
+                }
+            }
+        });
+        return item;
+    }
 
     public void connect(){
         String url = WSUrl.getText();
