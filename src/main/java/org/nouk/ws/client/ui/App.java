@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 /**
  *
@@ -90,6 +91,12 @@ public class App extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         WSHeadersKey = new javax.swing.JTextField();
         WSHeadersValue = new javax.swing.JTextField();
+        jPanel6 = new javax.swing.JPanel();
+        WSHeadersKey1 = new javax.swing.JTextField();
+        WSHeadersValue1 = new javax.swing.JTextField();
+        jPanel8 = new javax.swing.JPanel();
+        WSHeadersKey2 = new javax.swing.JTextField();
+        WSHeadersValue2 = new javax.swing.JTextField();
         connectButton = new javax.swing.JButton();
         manualSendJPanel = new javax.swing.JPanel();
         jSplitPane4 = new javax.swing.JSplitPane();
@@ -136,7 +143,7 @@ public class App extends javax.swing.JFrame {
             }
         });
 
-        connectJPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "ws-connect", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("宋体", 0, 12), new java.awt.Color(102, 102, 102))); // NOI18N
+        connectJPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, null, 0, 0, null, new java.awt.Color(102, 102, 102)));
 
         jLabel1.setText("url");
 
@@ -168,7 +175,8 @@ public class App extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        WSHeaders.setBorder(javax.swing.BorderFactory.createTitledBorder("headers"));
+        WSHeaders.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        WSHeaders.setLayout(new java.awt.BorderLayout());
 
         WSHeadersKey.setText(connectModel.getHeaders().keySet().stream().findFirst().orElse(""));
         WSHeadersKey.addActionListener(new java.awt.event.ActionListener() {
@@ -192,7 +200,7 @@ public class App extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(WSHeadersKey, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(WSHeadersValue, javax.swing.GroupLayout.DEFAULT_SIZE, 406, Short.MAX_VALUE))
+                .addComponent(WSHeadersValue, javax.swing.GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -201,22 +209,82 @@ public class App extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(WSHeadersKey, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(WSHeadersValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(18, Short.MAX_VALUE))
+        );
+
+        WSHeaders.add(jPanel4, java.awt.BorderLayout.CENTER);
+
+        WSHeadersKey1.setText(connectModel.getHeaders().keySet().stream().findFirst().orElse(""));
+        WSHeadersKey1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                WSHeadersKey1ActionPerformed(evt);
+            }
+        });
+
+        WSHeadersValue1.setText(connectModel.getHeaders().get(connectModel.getHeaders().keySet().stream().findFirst().orElse("")));
+        WSHeadersValue1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                WSHeadersValue1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(WSHeadersKey1, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(WSHeadersValue1, javax.swing.GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(WSHeadersKey1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(WSHeadersValue1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(18, Short.MAX_VALUE))
+        );
+
+        WSHeaders.add(jPanel6, java.awt.BorderLayout.PAGE_START);
+
+        WSHeadersKey2.setText(connectModel.getHeaders().keySet().stream().findFirst().orElse(""));
+        WSHeadersKey2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                WSHeadersKey2ActionPerformed(evt);
+            }
+        });
+
+        WSHeadersValue2.setText(connectModel.getHeaders().get(connectModel.getHeaders().keySet().stream().findFirst().orElse("")));
+        WSHeadersValue2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                WSHeadersValue2ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(WSHeadersKey2, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(WSHeadersValue2, javax.swing.GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE))
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(WSHeadersKey2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(WSHeadersValue2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout WSHeadersLayout = new javax.swing.GroupLayout(WSHeaders);
-        WSHeaders.setLayout(WSHeadersLayout);
-        WSHeadersLayout.setHorizontalGroup(
-            WSHeadersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(WSHeadersLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        WSHeadersLayout.setVerticalGroup(
-            WSHeadersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
+        WSHeaders.add(jPanel8, java.awt.BorderLayout.PAGE_END);
 
         connectButton.setText("connect");
         connectButton.addActionListener(new java.awt.event.ActionListener() {
@@ -243,9 +311,9 @@ public class App extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(WSHeaders, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(connectButton)
-                .addContainerGap(366, Short.MAX_VALUE))
+                .addContainerGap(282, Short.MAX_VALUE))
         );
 
         mainMenuJTabbedPane.addTab("ws-connect", connectJPanel);
@@ -482,7 +550,7 @@ public class App extends javax.swing.JFrame {
             .addComponent(jLabel2)
             .addGap(18, 18, 18)
             .addComponent(autoIntervalButton)
-            .addContainerGap(20, Short.MAX_VALUE))
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
     jPanel13Layout.setVerticalGroup(
         jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -762,8 +830,21 @@ public class App extends javax.swing.JFrame {
     private void mainMenuJTabbedPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_mainMenuJTabbedPaneStateChanged
         if(mainMenuJTabbedPane.getSelectedComponent().equals(connectJPanel)){
             WSUrl.setText(connectModel.getConnectionUrl());
-            WSHeadersKey.setText(connectModel.getHeaders().keySet().stream().findFirst().orElse(""));
-            WSHeadersValue.setText(connectModel.getHeaders().get(connectModel.getHeaders().keySet().stream().findFirst().orElse("")));
+            IntStream.range(0,3).forEach(value -> {
+                switch (value){
+                    case 0:
+                        WSHeadersKey.setText(connectModel.getHeaders().keySet().stream().skip(value).findFirst().orElse(""));
+                        WSHeadersValue.setText(connectModel.getHeaders().get(connectModel.getHeaders().keySet().stream().skip(value).findFirst().orElse("")));
+                        break;
+                    case 1:
+                        WSHeadersKey1.setText(connectModel.getHeaders().keySet().stream().skip(value).findFirst().orElse(""));
+                        WSHeadersValue1.setText(connectModel.getHeaders().get(connectModel.getHeaders().keySet().stream().skip(value).findFirst().orElse("")));
+                    case 2:
+                        WSHeadersKey2.setText(connectModel.getHeaders().keySet().stream().skip(value).findFirst().orElse(""));
+                        WSHeadersValue2.setText(connectModel.getHeaders().get(connectModel.getHeaders().keySet().stream().skip(value).findFirst().orElse("")));
+                }
+            });
+
         }else if(mainMenuJTabbedPane.getSelectedComponent().equals(manualSendJPanel)){
             updateList();
         }else if(mainMenuJTabbedPane.getSelectedComponent().equals(autoSendJPanel)){
@@ -794,6 +875,22 @@ public class App extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_autoTextAreaMouseClicked
 
+    private void WSHeadersKey1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_WSHeadersKey1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_WSHeadersKey1ActionPerformed
+
+    private void WSHeadersValue1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_WSHeadersValue1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_WSHeadersValue1ActionPerformed
+
+    private void WSHeadersKey2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_WSHeadersKey2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_WSHeadersKey2ActionPerformed
+
+    private void WSHeadersValue2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_WSHeadersValue2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_WSHeadersValue2ActionPerformed
+
     private JMenuItem createMenuItem(JTextArea jTextArea,String action,String text)
     {
         JMenuItem item=new JMenuItem(text);
@@ -813,10 +910,20 @@ public class App extends javax.swing.JFrame {
         String url = WSUrl.getText();
         String headerKey = WSHeadersKey.getText();
         String headerValue = WSHeadersValue.getText();
+        String headerKey1 = WSHeadersKey1.getText();
+        String headerValue1 = WSHeadersValue1.getText();
+        String headerKey2 = WSHeadersKey2.getText();
+        String headerValue2 = WSHeadersValue2.getText();
         if (StringUtils.isNotEmpty(url)) {
             HttpHeaders entries = new DefaultHttpHeaders();
             if (StringUtils.isNotEmpty(headerKey) && StringUtils.isNotEmpty(headerValue)) {
                 entries.add(headerKey, headerValue);
+            }
+            if (StringUtils.isNotEmpty(headerKey1) && StringUtils.isNotEmpty(headerValue1)) {
+                entries.add(headerKey1, headerValue1);
+            }
+            if (StringUtils.isNotEmpty(headerKey2) && StringUtils.isNotEmpty(headerValue2)) {
+                entries.add(headerKey2, headerValue2);
             }
             try {
                 if (webSocketClient.connect(url, entries)) {
@@ -933,7 +1040,11 @@ public class App extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel WSHeaders;
     private javax.swing.JTextField WSHeadersKey;
+    private javax.swing.JTextField WSHeadersKey1;
+    private javax.swing.JTextField WSHeadersKey2;
     private javax.swing.JTextField WSHeadersValue;
+    private javax.swing.JTextField WSHeadersValue1;
+    private javax.swing.JTextField WSHeadersValue2;
     private javax.swing.JTextField WSUrl;
     private javax.swing.JButton addAutoSendEventButton;
     private javax.swing.JButton addSendEventButton;
@@ -959,7 +1070,9 @@ public class App extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
