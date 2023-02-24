@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -14,6 +15,7 @@ import java.nio.file.Paths;
 abstract class DataPersistence {
     private String userDir;
     private String dir = "/.wsClient/";
+    private static final String ENCODING_SYSTEM_PROPERTY  = "sun.jnu.encoding";
 
     @PostConstruct
     private void init() throws IOException {
@@ -38,12 +40,14 @@ abstract class DataPersistence {
     abstract String data2String();
     public void data2File() throws IOException {
         if(StringUtils.isNoneEmpty(data2String())){
-            Files.write(filePath(),data2String().getBytes(StandardCharsets.UTF_8));
+            Charset charset = Charset.forName(System.getProperty(ENCODING_SYSTEM_PROPERTY));
+            Files.write(filePath(),data2String().getBytes(charset));
         }
     }
 
     abstract void string2Data(String str);
     public void file2Data() throws IOException {
-        string2Data(new String(Files.readAllBytes(filePath())));
+        Charset charset = Charset.forName(System.getProperty(ENCODING_SYSTEM_PROPERTY));
+        string2Data(new String(Files.readAllBytes(filePath()), charset));
     }
 }
